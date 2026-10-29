@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Videos | Michael B. Whit</title>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Michael B Whit Official Site">
+  <meta property="og:title" content="Michael B Whit Official Site">
+  <meta property="og:image" content="graphics/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Michael B. Whit in a cream cowboy hat leaning against a cinder block wall at night">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Michael B Whit Official Site">
+  <meta name="twitter:image" content="graphics/og-image.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="page--inner">
+  <div class="hero" aria-hidden="true">
+    <video class="hero__video" autoplay muted loop playsinline preload="auto" poster="video/mbw-hero-poster.jpg">
+      <source src="video/mbw-hero-video.mp4" type="video/mp4">
+    </video>
+    <div class="hero__shade"></div>
+    <div class="hero__blur"></div>
+    <div class="hero__grain"></div>
+  </div>
+
+  <header class="masthead">
+    <a class="logo" href="index.html" aria-label="Michael B. Whit, home">
+      <img src="graphics/mbw-logo-cropped.png" alt="MBW monogram">
+    </a>
+    <nav aria-label="Main">
+      <ul class="menu">
+        <li class="menu__item"><a class="menu__link" href="videos.html" aria-current="page">Videos</a></li>
+        <li class="menu__item"><a class="menu__link" href="music.html">Music</a></li>
+        <li class="menu__item"><a class="menu__link" href="photos.html">Photos</a></li>
+        <li class="menu__item"><a class="menu__link" href="index.html#fans">Fans</a></li>
+        <li class="menu__item"><a class="menu__link" href="index.html#events">Events</a></li>
+        <li class="menu__item"><a class="menu__link" href="index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="content">
+    <button class="video-card" type="button"
+            data-video-id="F_jbfTJGt5s"
+            data-video-title="Certified Steppa’s Skate Party"
+            aria-haspopup="dialog">
+      <span class="video-card__frame">
+        <img src="https://i.ytimg.com/vi/F_jbfTJGt5s/maxresdefault.jpg" alt="" loading="lazy">
+        <span class="video-card__play" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M6 4l15 8-15 8z"/></svg>
+        </span>
+      </span>
+      <span class="video-card__title">Certified Steppa’s Skate Party</span>
+    </button>
+  </main>
+
+  <dialog class="lightbox" aria-labelledby="lightbox-title">
+    <div class="lightbox__head">
+      <h2 class="lightbox__title" id="lightbox-title"></h2>
+      <button class="lightbox__close" type="button" aria-label="Close video">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+      </button>
+    </div>
+    <div class="lightbox__player"></div>
+  </dialog>
+
+  <script>
+    const lightbox = document.querySelector('.lightbox');
+    const player = lightbox.querySelector('.lightbox__player');
+    const title = lightbox.querySelector('.lightbox__title');
+
+    function openVideo(id, name) {
+      title.textContent = name;
+      player.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0"
+        title="${name}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+      lightbox.showModal();
+      requestAnimationFrame(() => lightbox.classList.add('is-visible'));
+    }
+
+    // Clearing the iframe stops playback when the lightbox closes
+    lightbox.addEventListener('close', () => {
+      lightbox.classList.remove('is-visible');
+      player.innerHTML = '';
+    });
+
+    document.querySelectorAll('.video-card').forEach(card => {
+      card.addEventListener('click', () => openVideo(card.dataset.videoId, card.dataset.videoTitle));
+    });
+
+    lightbox.querySelector('.lightbox__close').addEventListener('click', () => lightbox.close());
+
+    // Click on the dimmed backdrop closes it
+    lightbox.addEventListener('click', e => {
+      if (e.target === lightbox) lightbox.close();
+    });
+  </script>
+</body>
+</html>
