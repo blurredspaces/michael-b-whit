@@ -117,7 +117,7 @@ body:has(.menu__link:hover, .menu__link:focus-visible) .hero__blur { opacity: 1;
   display: block;
   width: clamp(96px, 10vw, 144px);
   border-radius: 4px;
-  transition: transform .5s var(--spring), opacity .3s var(--ease-out);
+  transition: transform .5s var(--spring), opacity .7s var(--ease-out);
 }
 .logo img {
   display: block;
@@ -205,6 +205,40 @@ body:has(.menu__link:hover, .menu__link:focus-visible) .hero__blur { opacity: 1;
 }
 .menu__item:has(.menu__link:hover, .menu__link:focus-visible) ~ .menu__item {
   transform: translateY(.9rem);
+}
+
+/* ---------- Inner pages: menu sits above the logo, horizontal, 30% smaller ---------- */
+.page--inner .masthead { gap: var(--space-3); }
+/* Logo drops to 70% on inner pages; the homepage keeps it full size */
+.page--inner .logo { width: clamp(67px, 7vw, 101px); }
+.page--inner .menu {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-1) var(--space-3);
+}
+.page--inner .menu__link { font-size: calc(clamp(1.35rem, 1.6vw + .6rem, 1.9rem) * .7); }
+.page--inner .menu__link:hover,
+.page--inner .menu__link:focus-visible { transform: scale(1.2); }
+.page--inner .menu__link:active { transform: scale(1.1); }
+.page--inner .menu__item:has(.menu__link:hover, .menu__link:focus-visible) ~ .menu__item { transform: none; }
+
+/* Logo and menu fade out when a choice is made, and fade in on the next page */
+.masthead nav { transition: opacity .7s var(--ease-out); }
+.masthead.is-leaving nav,
+.masthead.is-leaving .logo { opacity: 0; }
+.masthead nav { animation: menu-in 1.2s var(--ease-out) .1s backwards; }
+.masthead .logo { animation: logo-in 1.2s var(--ease-out) backwards; }
+/* Inner pages: the logo rises into place while settling to its smaller size */
+.page--inner .masthead .logo { animation-name: logo-in-small; }
+@keyframes menu-in {
+  from { opacity: 0; transform: translateY(-6px); }
+}
+@keyframes logo-in {
+  from { opacity: 0; }
+}
+@keyframes logo-in-small {
+  from { opacity: 0; transform: translateY(18px) scale(1.43); }
 }
 
 /* ---------- Inner page content ---------- */
@@ -523,6 +557,7 @@ body:has(.menu__link:hover, .menu__link:focus-visible) .hero__blur { opacity: 1;
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
   }
 }
 
